@@ -1,4 +1,9 @@
+import 'package:act/features/onboarding/widgets/developer_section.dart';
+import 'package:act/features/onboarding/widgets/feature_section.dart';
+import 'package:act/features/onboarding/widgets/footer_section.dart';
+import 'package:act/features/onboarding/widgets/mockup_section.dart';
 import 'package:act/features/onboarding/widgets/top_bar.dart';
+import 'package:act/features/onboarding/widgets/welcome_section.dart';
 import 'package:flutter/material.dart';
 
 class OnboardingDesktop extends StatefulWidget {
@@ -15,7 +20,17 @@ class _OnboardingDesktopState extends State<OnboardingDesktop> {
       appBar: TopBar(
         burgerMenuEnabled: false,
       ),
-      body: Placeholder(),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            WelcomeSection(),
+            FeatureSection(),
+            MockupSection(),
+            DeveloperSection(),
+            FooterSection()
+          ],
+        ),
+      ),
     );
   }
 }

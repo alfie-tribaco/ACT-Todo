@@ -1,5 +1,8 @@
+import 'package:act/app/utils/app_theme_state.dart';
 import 'package:act/app/utils/constants/app_measures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
 
 class TopBar extends StatefulWidget implements PreferredSizeWidget {
   const TopBar({super.key, required this.burgerMenuEnabled});
@@ -21,10 +24,16 @@ class _TopBarState extends State<TopBar> {
       margin: EdgeInsets.symmetric(
           horizontal: AppMeasures().getScreenWidth(context) * 0.2),
       child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-        const Row(
+        Row(
           children: [
-            Text("C Logo"),
-            Text("ACT"),
+            SvgPicture.asset(
+              'assets/act_logo.svg',
+              height: 30,
+            ),
+            SvgPicture.asset(
+              'assets/act_text_logo.svg',
+              height: 30,
+            ),
           ],
         ),
         Visibility(
@@ -43,8 +52,33 @@ class _TopBarState extends State<TopBar> {
           ]),
         ),
         widget.burgerMenuEnabled
-            ? const Icon(Icons.menu_book)
-            : const Text("Button")
+            ? PopupMenuButton(
+                icon: const Icon(Icons.menu),
+                itemBuilder: (context) {
+                  return const [
+                    PopupMenuItem<String>(
+                      value: "features",
+                      child: Text("Features"),
+                    ),
+                    PopupMenuItem<String>(
+                      value: "about",
+                      child: Text("about"),
+                    ),
+                    PopupMenuItem<String>(
+                      value: "donate",
+                      child: Text("donate"),
+                    )
+                  ];
+                })
+            : Consumer<AppThemeState>(
+                builder: (context, value, child) {
+                  return Switch(
+                      value: value.isDark,
+                      onChanged: (value) {
+                        context.read<AppThemeState>().changeTheme();
+                      });
+                },
+              )
       ]),
     );
   }
